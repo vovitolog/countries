@@ -31,7 +31,7 @@ const Input = styled.input.attrs({
 `;
 
 export const Search = ({ search, setSearch }) => {
-    console.trace (search)
+
   return (
     <InputContainer>
       <IoSearch />
