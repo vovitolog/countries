@@ -4,14 +4,16 @@ import {List} from '../components/List';
 import {Card} from '../components/Card';
 import {Controls} from '../components/Controls';
 import {useDispatch, useSelector} from "react-redux";
-import {selectAllCountries, selectCountriesInfo} from "../store/countries/countries-selector";
+import {selectAllCountries, selectCountriesInfo, selectVisibleCountries} from "../store/countries/countries-selector";
 import {useEffect} from "react";
 import {loadCountries} from "../store/countries/countries-actions";
+import {selectSearch} from "../store/controls/controls-selector";
 
 export const HomePage = () => {
     const navigate = useNavigate();
     const dispath = useDispatch();
-    const countries = useSelector(selectAllCountries);
+    const search = useSelector(selectSearch);
+    const countries = useSelector(state => selectVisibleCountries(state, {search}));
     const {status, error, quantity} = useSelector(selectCountriesInfo);
 
     useEffect(() => {
@@ -24,7 +26,8 @@ export const HomePage = () => {
         <>
             <Controls/>
 
-            {error && <h2>Can't fetch Data</h2>}
+            {error && <h2>Can't fetch Data {error}</h2>}
+
             {status === 'loading' && <h1>Loading ...</h1>}
             {status === 'received' && (
                 <List>
