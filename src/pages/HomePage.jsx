@@ -7,13 +7,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectAllCountries, selectCountriesInfo, selectVisibleCountries} from "../store/countries/countries-selector";
 import {useEffect} from "react";
 import {loadCountries} from "../store/countries/countries-actions";
-import {selectSearch} from "../store/controls/controls-selector";
+import {selectControls} from "../store/controls/controls-selector";
 
 export const HomePage = () => {
     const navigate = useNavigate();
     const dispath = useDispatch();
-    const search = useSelector(selectSearch);
-    const countries = useSelector(state => selectVisibleCountries(state, {search}));
+    const {search, region} = useSelector(selectControls);
+    // eslint-disable-next-line no-undef
+    const countries = useSelector(state => selectVisibleCountries(state, {search, region}));
     const {status, error, quantity} = useSelector(selectCountriesInfo);
 
     useEffect(() => {
