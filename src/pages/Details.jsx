@@ -6,7 +6,7 @@ import {Info} from '../components/Info';
 import {useDispatch, useSelector} from "react-redux";
 import {selectDetails} from "../store/details/details-selector";
 import {useEffect} from "react";
-import {loadCountyByName} from "../store/details/details-actions";
+import {clearDetails, loadCountyByName} from "../store/details/details-actions";
 
 
 export const Details = () => {
@@ -17,6 +17,9 @@ export const Details = () => {
 
     useEffect(() => {
         dispatch(loadCountyByName(name));
+        return () => {
+            dispatch(clearDetails())
+        }
     }, [name, dispatch])
 
     return (
@@ -25,7 +28,7 @@ export const Details = () => {
                 <IoArrowBack/> Back
             </Button>
             {status === 'loading' && <h2>Loading...</h2>}
-            {error&& <h2>{error}</h2>}
+            {error && <h2>{error}</h2>}
             {currentCountry && <Info push={navigate} {...currentCountry} />}
         </div>
     );
